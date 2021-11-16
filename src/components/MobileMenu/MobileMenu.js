@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import styled from 'styled-components/macro';
+import styled, { keyframes } from 'styled-components/macro';
 import { DialogOverlay, DialogContent } from '@reach/dialog';
 
 import { QUERIES, WEIGHTS } from '../../constants';
@@ -36,15 +36,30 @@ const MobileMenu = ({ isOpen, onDismiss }) => {
   );
 };
 
+const BackgroundTransition = keyframes`
+  0% { background-color: none; }
+  100% { background-color: var(--color-backdrop); }
+`;
+
 const Overlay = styled(DialogOverlay)`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--color-backdrop);
   display: flex;
   justify-content: flex-end;
+  animation: ${BackgroundTransition} 250ms ease-in forwards;
+`;
+
+const SlideContentIn = keyframes`
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(0%); }
+`;
+
+const FadeContentIn = keyframes`
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 `;
 
 const Content = styled(DialogContent)`
@@ -54,6 +69,7 @@ const Content = styled(DialogContent)`
   padding: 24px 32px;
   display: flex;
   flex-direction: column;
+  animation: ${SlideContentIn} 300ms ease-in forwards, ${FadeContentIn} 500ms ease-in;
 `;
 
 const CloseButton = styled(UnstyledButton)`
